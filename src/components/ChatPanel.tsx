@@ -17,7 +17,10 @@ export default function ChatPanel() {
         {open ? "✕" : "💬"}
       </button>
 
-      <aside className={`${styles.panel} ${open ? styles.open : ""}`} aria-label="Chat panel">
+      <aside
+        className={`${styles.panel} ${open ? styles.open : ""}`}
+        aria-label="Chat panel"
+      >
         <div className={styles.header}>
           <span className={styles.headerTitle}>Chat</span>
         </div>

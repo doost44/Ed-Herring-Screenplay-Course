@@ -14,7 +14,7 @@ function NavNode({ item, depth = 0 }: { item: NavItem; depth?: number }) {
     hasChildren &&
     (pathname === item.href ||
       item.children!.some(
-        (c) => pathname === c.href || pathname.startsWith(c.href + "/")
+        (c) => pathname === c.href || pathname.startsWith(c.href + "/"),
       ));
   const [open, setOpen] = useState(isExpanded);
 
@@ -79,10 +79,7 @@ export default function Sidebar() {
       </nav>
 
       {mobileOpen && (
-        <div
-          className={styles.overlay}
-          onClick={() => setMobileOpen(false)}
-        />
+        <div className={styles.overlay} onClick={() => setMobileOpen(false)} />
       )}
     </>
   );

@@ -8,7 +8,11 @@ export const metadata: Metadata = {
   description: "A course-style app for developing short film screenplays.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
