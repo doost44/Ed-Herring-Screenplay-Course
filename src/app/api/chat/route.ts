@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import {
+  buildNoStoryShapingReply,
   buildAppStateSummary,
   buildMessages,
+  detectNoStoryShapingNeed,
   detectCommandFlags,
   loadSystemPrompt,
+  postProcessEdReply,
 } from "@/lib/edAgent";
+import { generateText, getConfiguredProvider } from "@/lib/llmProvider";
+import { buildEdRefusal, checkSafety } from "@/lib/safety";
 import type {
   AppState,
   ChatMessage,
@@ -41,13 +46,100 @@ export async function POST(request: Request) {
       messages,
       appStateSummary,
       flags,
+      appState,
+      latestUserText,
     );
 
-    const reply = buildMockReply({
-      latestUserText,
-      appState,
-      flags,
-    });
+    const goal = deriveGoal(latestUserText, appState.currentSlug);
+    const noQuestions = hasNoQuestionsCommand(latestUserText);
+    const mode = selectMode(flags, latestUserText, appState);
+    const boundaries = deriveBoundaries(flags, noQuestions, appState.analysisMode);
+
+    if (shouldApplyWeek1Gate(latestUserText, appState)) {
+      return NextResponse.json({
+        reply: buildWeek1GateReply(goal),
+        flags,
+        debug: {
+          messageCount: finalMessages.length,
+          latestUserLength: latestUserText.length,
+          selectedMode: "T",
+          noQuestions,
+          provider: "week1-gate",
+        },
+      });
+    }
+
+    if (detectNoStoryShapingNeed({ userText: latestUserText })) {
+      return NextResponse.json({
+        reply: buildNoStoryShapingReply({ goal, slug: appState.currentSlug }),
+        flags,
+        debug: {
+          messageCount: finalMessages.length,
+          latestUserLength: latestUserText.length,
+          selectedMode: "T",
+          noQuestions,
+          provider: "no-story-shaping",
+        },
+      });
+    }
+
+    const safety = checkSafety(latestUserText);
+    if (safety.shouldRefuse) {
+      return NextResponse.json({
+        reply: buildEdRefusal({ goal, reason: safety.reason ?? "unsafe request" }),
+        flags,
+        debug: {
+          messageCount: finalMessages.length,
+          latestUserLength: latestUserText.length,
+          selectedMode: "B",
+          noQuestions,
+          provider: "safety-refusal",
+        },
+      });
+    }
+
+    const provider = getConfiguredProvider();
+    let reply: string;
+    let providerUsed: string;
+    const hasHardCommandOverride = Boolean(flags.requestedMode) || noQuestions;
+
+    if (hasHardCommandOverride) {
+      reply = buildMockReply({
+        latestUserText,
+        appState,
+        flags,
+      });
+      providerUsed = "mock-command-override";
+    } else if (provider) {
+      try {
+        const generated = await generateText({
+          messages: finalMessages,
+          temperature: 0.4,
+          maxTokens: 600,
+        });
+        reply = postProcessEdReply({
+          reply: generated,
+          mode,
+          goal,
+          boundaries,
+        });
+        providerUsed = provider;
+      } catch {
+        reply = buildMockReply({
+          latestUserText,
+          appState,
+          flags,
+        });
+        providerUsed = `${provider}-fallback-mock`;
+      }
+    } else {
+      reply = buildMockReply({
+        latestUserText,
+        appState,
+        flags,
+      });
+      providerUsed = "mock";
+    }
 
     return NextResponse.json({
       reply,
@@ -55,8 +147,9 @@ export async function POST(request: Request) {
       debug: {
         messageCount: finalMessages.length,
         latestUserLength: latestUserText.length,
-        selectedMode: selectMode(flags, latestUserText),
-        noQuestions: hasNoQuestionsCommand(latestUserText),
+        selectedMode: mode,
+        noQuestions,
+        provider: providerUsed,
       },
     });
   } catch (error) {
@@ -70,6 +163,25 @@ export async function POST(request: Request) {
   }
 }
 
+function shouldApplyWeek1Gate(userText: string, appState: AppState): boolean {
+  if (appState.weekCompletion.week1) return false;
+
+  return /\b(ending|endings|character\s*arc|arcs|theme|wants?|wounds?|scene\s*list|scene\s*lists)\b/i.test(
+    userText,
+  );
+}
+
+function buildWeek1GateReply(goal: string): string {
+  return [
+    "[MODE]: T",
+    `[GOAL]: ${goal}`,
+    "[BOUNDARIES]: Week 1 gate active; avoid endings/arcs/theme/wants/wounds/scene lists until Week 1 is complete",
+    "- Complete Week 1 concept decisions and deliverables first.",
+    "- I can help with constraints, sensory logic, and process templates right now.",
+    "- Once Week 1 is marked complete, those advanced topics can be addressed.",
+  ].join("\n");
+}
+
 function buildMockReply(args: {
   latestUserText: string;
   appState: AppState;
@@ -77,9 +189,9 @@ function buildMockReply(args: {
 }): string {
   const { latestUserText, appState, flags } = args;
   const noQuestions = hasNoQuestionsCommand(latestUserText);
-  const mode = selectMode(flags, latestUserText);
+  const mode = selectMode(flags, latestUserText, appState);
   const goal = deriveGoal(latestUserText, appState.currentSlug);
-  const boundaries = deriveBoundaries(flags, noQuestions);
+  const boundaries = deriveBoundaries(flags, noQuestions, appState.analysisMode);
 
   if (mode === "Q" && !noQuestions) {
     const questions = buildQuestions(
@@ -98,6 +210,7 @@ function buildMockReply(args: {
     mode,
     appState.currentSlug,
     latestUserText,
+    appState.analysisMode,
   );
 
   return [
@@ -108,10 +221,18 @@ function buildMockReply(args: {
   ].join("\n");
 }
 
-function selectMode(flags: CommandFlags, latestUserText: string): ModeBlock {
+function selectMode(
+  flags: CommandFlags,
+  latestUserText: string,
+  appState?: AppState,
+): ModeBlock {
   const noQuestions = hasNoQuestionsCommand(latestUserText);
 
   let mode: ModeBlock = flags.requestedMode ?? "T";
+
+  if (appState?.analysisMode && !flags.requestedMode && !noQuestions) {
+    mode = "T";
+  }
 
   if (mode === "M") {
     mode = "T";
@@ -140,13 +261,20 @@ function deriveGoal(latestUserText: string, slug: string): string {
     : firstSentence;
 }
 
-function deriveBoundaries(flags: CommandFlags, noQuestions: boolean): string {
+function deriveBoundaries(
+  flags: CommandFlags,
+  noQuestions: boolean,
+  analysisMode?: boolean,
+): string {
   const items: string[] = [];
 
   if (!flags.coWriteRequested) items.push("No co-writing by default");
   if (!flags.storyFishingRequested) items.push("No story-fishing by default");
   if (!flags.rewriteRequested) items.push("No rewrites unless requested");
   if (noQuestions) items.push("No questions in this response");
+  if (analysisMode) {
+    items.push("Analysis Mode: teach analysis tools, avoid reproducing text by default");
+  }
 
   return items.join("; ");
 }
@@ -167,6 +295,7 @@ function buildNonQuestionBody(
   mode: ModeBlock,
   slug: string,
   latestUserText: string,
+  analysisMode?: boolean,
 ): string[] {
   const lead =
     latestUserText.split("\n")[0]?.trim() || "(no user text provided)";
@@ -196,6 +325,14 @@ function buildNonQuestionBody(
     case "M":
     case "T":
     default:
+      if (analysisMode) {
+        return [
+          `- Analysis mode active for ${slug}.`,
+          "- Use behavior cues, silence/space cues, blocking cues, and sound cues.",
+          "- Focus on interpretive tools and process notes, not text reproduction.",
+        ];
+      }
+
       return [
         `- Template mode active for ${slug}.`,
         "- Fill fields with your own production/process details.",

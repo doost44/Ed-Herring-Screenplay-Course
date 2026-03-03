@@ -442,3 +442,29 @@ td.template-placeholder {
   border-color: #4c1d95;
   background: #2e1065;
 }
+
+.script-session-card {
+  border: 1px solid #2a2a4a;
+  background: #141427;
+  border-radius: 10px;
+  padding: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.script-session-card h3 {
+  color: #c4b5fd;
+  margin-bottom: 0.35rem;
+  font-size: 1rem;
+}
+
+.script-ed-reply {
+  margin-top: 0.75rem;
+  white-space: pre-wrap;
+  border: 1px solid #2a2a4a;
+  background: #0f1024;
+  border-radius: 8px;
+  padding: 0.65rem;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}

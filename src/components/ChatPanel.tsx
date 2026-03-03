@@ -202,6 +202,7 @@ function buildAppState(currentSlug: string): AppState {
 
   return {
     currentSlug,
+    analysisMode: currentSlug.startsWith("/script-lab"),
     weekCompletion: {
       week1: getJSON<boolean>("mm_week:1:completed", false),
       week2: getJSON<boolean>("mm_week:2:completed", false),

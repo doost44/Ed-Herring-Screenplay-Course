@@ -25,6 +25,7 @@ export interface ConstraintsSummary {
 
 export interface AppState {
   currentSlug: string;
+  analysisMode?: boolean;
   weekCompletion: WeekCompletionFlags;
   constraintsSummary: ConstraintsSummary;
 }
