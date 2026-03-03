@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Infrastructure"
-      title="Constraints"
-      description="Document project constraints such as budget, time, equipment, locations, and crew availability."
-    />
-  );
+  return <ContentPage href="/infrastructure/constraints" title="Constraints" />;
 }

@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Palettes"
-      description="Colour palettes and grading references for your film's visual identity."
-    />
-  );
+  return <ContentPage href="/reference-board/palettes" title="Palettes" />;
 }

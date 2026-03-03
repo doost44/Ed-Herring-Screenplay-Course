@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Script Lab"
-      title="Techniques"
-      description="Catalogue of screenwriting techniques learned through analysis and coursework."
-    />
-  );
+  return <ContentPage href="/script-lab/techniques" title="Techniques" />;
 }

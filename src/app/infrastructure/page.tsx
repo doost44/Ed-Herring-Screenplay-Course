@@ -1,12 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Infrastructure"
-      title="Project Infrastructure"
-      description="Central hub for project constraints, revision history, and milestone tracking."
-      details="Use the sub-pages to manage constraints, the revision log, and milestones."
-    />
-  );
+  return <ContentPage href="/infrastructure" title="Infrastructure" />;
 }

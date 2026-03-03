@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Script Lab"
-      title="Sessions"
-      description="Detailed records of analysis sessions — what you studied, discovered, and noted."
-    />
-  );
+  return <ContentPage href="/script-lab/sessions" title="Sessions" />;
 }

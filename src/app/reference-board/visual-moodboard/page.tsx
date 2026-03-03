@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Visual Moodboard"
-      description="Collect images, stills, and visual inspiration for tone and aesthetic."
-    />
-  );
+  return <ContentPage href="/reference-board/visual-moodboard" title="Visual Moodboard" />;
 }

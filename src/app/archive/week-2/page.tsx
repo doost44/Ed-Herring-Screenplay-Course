@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Archive"
-      title="Archive — Week 2"
-      description="Archived chat imports and conversation logs from Week 2."
-    />
-  );
+  return <ContentPage href="/archive/week-2" title="Archive — Week 2" />;
 }

@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Textures"
-      description="Texture samples and material references for production design."
-    />
-  );
+  return <ContentPage href="/reference-board/textures" title="Textures" />;
 }

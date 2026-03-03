@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Sound Refs"
-      description="Sound design, music, and audio atmosphere references."
-    />
-  );
+  return <ContentPage href="/reference-board/sound-refs" title="Sound Refs" />;
 }

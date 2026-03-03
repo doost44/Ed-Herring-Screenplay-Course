@@ -1,12 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Script Lab"
-      title="Script Lab"
-      description="Your workspace for screenplay analysis, annotation, and technique mastery."
-      details="Use the sub-pages to manage uploads, templates, analysis sessions, and learned techniques."
-    />
-  );
+  return <ContentPage href="/script-lab" title="Script Lab" />;
 }

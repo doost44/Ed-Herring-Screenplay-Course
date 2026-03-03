@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Settings"
-      title="Settings"
-      description="Application preferences, theme options, and configuration."
-    />
-  );
+  return <ContentPage href="/settings" title="Settings" />;
 }

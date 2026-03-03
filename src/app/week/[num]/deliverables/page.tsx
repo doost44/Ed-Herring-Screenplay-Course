@@ -1,4 +1,4 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default async function Page({
   params,
@@ -6,11 +6,5 @@ export default async function Page({
   params: Promise<{ num: string }>;
 }) {
   const { num } = await params;
-  return (
-    <PlaceholderPage
-      section={`Week ${num}`}
-      title="Deliverables"
-      description={`Deliverables checklist for Week ${num}. Track what needs to be submitted or completed.`}
-    />
-  );
+  return <ContentPage href={`/week/${num}/deliverables`} title="Deliverables" />;
 }

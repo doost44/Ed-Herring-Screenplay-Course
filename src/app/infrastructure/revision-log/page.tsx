@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Infrastructure"
-      title="Revision Log"
-      description="Track every major revision to your screenplay and project plan."
-    />
-  );
+  return <ContentPage href="/infrastructure/revision-log" title="Revision Log" />;
 }

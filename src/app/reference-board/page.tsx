@@ -1,12 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Reference Board"
-      description="Visual and auditory references for your short film — mood, texture, colour, location, and sound."
-      details="Browse the sub-pages to curate your reference library."
-    />
-  );
+  return <ContentPage href="/reference-board" title="Reference Board" />;
 }

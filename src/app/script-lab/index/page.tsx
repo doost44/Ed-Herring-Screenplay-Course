@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Script Lab"
-      title="Index"
-      description="Master index of all scripts uploaded and analysed in the Script Lab."
-    />
-  );
+  return <ContentPage href="/script-lab/index" title="Index" />;
 }

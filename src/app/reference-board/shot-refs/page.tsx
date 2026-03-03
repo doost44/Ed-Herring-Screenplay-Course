@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Shot Refs"
-      description="Shot composition, framing, and cinematography references."
-    />
-  );
+  return <ContentPage href="/reference-board/shot-refs" title="Shot Refs" />;
 }

@@ -1,11 +1,5 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContentPage from "@/components/ContentPage";
 
 export default function Page() {
-  return (
-    <PlaceholderPage
-      section="Reference Board"
-      title="Locations"
-      description="Location scouting references — photos, maps, and notes on potential shooting sites."
-    />
-  );
+  return <ContentPage href="/reference-board/locations" title="Locations" />;
 }
