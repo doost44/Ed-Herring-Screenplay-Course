@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import SectionBlocks from "@/components/SectionBlocks";
+import WeekProgressPanel from "@/components/week/WeekProgressPanel";
 import { pageCopy } from "@/content/courseCopy";
 
 const copy = pageCopy["/master-index"];
@@ -19,6 +20,7 @@ export default function MasterIndexPage() {
     <article>
       <PageHeader title="Master Index" subtitle={copy.intro} />
       <SectionBlocks blocks={copy.blocks} />
+      <WeekProgressPanel />
       <ul className="quick-links">
         {quickLinks.map(([href, label]) => (
           <li key={href}>
