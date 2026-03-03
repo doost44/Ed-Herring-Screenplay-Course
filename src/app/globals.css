@@ -20,9 +20,18 @@ html, body {
 
 .main-content {
   margin-left: 240px;
+  margin-right: 320px;
   flex: 1;
   padding: 2rem 2.5rem;
   max-width: 860px;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 1rem 1.25rem;
+  }
 }
 
 h1 {

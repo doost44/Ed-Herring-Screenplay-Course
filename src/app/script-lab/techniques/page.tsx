@@ -4,8 +4,8 @@ export default function Page() {
   return (
     <PlaceholderPage
       section="Script Lab"
-      title="Upload Log"
-      description="Log of uploaded screenplays with dates, sources, and notes."
+      title="Techniques"
+      description="Catalogue of screenwriting techniques learned through analysis and coursework."
     />
   );
 }

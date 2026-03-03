@@ -6,25 +6,25 @@ export interface NavItem {
 
 const weeks: NavItem[] = [1, 2, 3, 4, 5].map((n) => ({
   label: `Week ${n}`,
-  href: `/week-${n}`,
+  href: `/week/${n}`,
   children: [
-    { label: "Lecture", href: `/week-${n}/lecture` },
-    { label: "Exercises", href: `/week-${n}/exercises` },
-    { label: "Decisions Summary", href: `/week-${n}/decisions-summary` },
-    { label: "Deliverables Checklist", href: `/week-${n}/deliverables-checklist` },
-    { label: "Notes", href: `/week-${n}/notes` },
+    { label: "Lecture", href: `/week/${n}/lecture` },
+    { label: "Exercises", href: `/week/${n}/exercises` },
+    { label: "Decisions", href: `/week/${n}/decisions` },
+    { label: "Deliverables", href: `/week/${n}/deliverables` },
+    { label: "Notes", href: `/week/${n}/notes` },
   ],
 }));
 
 export const navTree: NavItem[] = [
-  { label: "Master Index", href: "/" },
+  { label: "Master Index", href: "/master-index" },
   {
-    label: "Project Infrastructure",
-    href: "/project-infrastructure",
+    label: "Infrastructure",
+    href: "/infrastructure",
     children: [
-      { label: "Constraints & Resources", href: "/project-infrastructure/constraints-resources" },
-      { label: "Revision Log", href: "/project-infrastructure/revision-log" },
-      { label: "Milestones", href: "/project-infrastructure/milestones" },
+      { label: "Constraints", href: "/infrastructure/constraints" },
+      { label: "Revision Log", href: "/infrastructure/revision-log" },
+      { label: "Milestones", href: "/infrastructure/milestones" },
     ],
   },
   ...weeks,
@@ -34,16 +34,16 @@ export const navTree: NavItem[] = [
     children: [
       { label: "Index", href: "/script-lab/index" },
       { label: "Upload Log", href: "/script-lab/upload-log" },
-      { label: "Annotation Templates", href: "/script-lab/annotation-templates" },
-      { label: "Analysis Sessions", href: "/script-lab/analysis-sessions" },
-      { label: "Learned Techniques", href: "/script-lab/learned-techniques" },
+      { label: "Templates", href: "/script-lab/templates" },
+      { label: "Sessions", href: "/script-lab/sessions" },
+      { label: "Techniques", href: "/script-lab/techniques" },
     ],
   },
   {
     label: "Reference Board",
     href: "/reference-board",
     children: [
-      { label: "Moodboard", href: "/reference-board/moodboard" },
+      { label: "Visual Moodboard", href: "/reference-board/visual-moodboard" },
       { label: "Textures", href: "/reference-board/textures" },
       { label: "Locations", href: "/reference-board/locations" },
       { label: "Palettes", href: "/reference-board/palettes" },
@@ -56,8 +56,9 @@ export const navTree: NavItem[] = [
     label: "Archive",
     href: "/archive",
     children: [1, 2, 3, 4, 5].map((n) => ({
-      label: `Chat Import: Week ${n}`,
-      href: `/archive/chat-import-week-${n}`,
+      label: `Week ${n}`,
+      href: `/archive/week-${n}`,
     })),
   },
+  { label: "Settings", href: "/settings" },
 ];

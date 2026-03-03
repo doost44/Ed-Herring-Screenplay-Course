@@ -5,8 +5,7 @@ export default function Page() {
     <PlaceholderPage
       section="Archive"
       title="Archive"
-      description="The Archive stores imported chat transcripts and historical notes from each week of the course."
-      details="Use this section to review past discussions and extract insights for ongoing script development."
+      description="Archived chat imports and historical conversation logs organised by week."
     />
   );
 }

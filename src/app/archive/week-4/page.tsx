@@ -3,9 +3,9 @@ import PlaceholderPage from "@/components/PlaceholderPage";
 export default function Page() {
   return (
     <PlaceholderPage
-      section="Script Lab"
-      title="Upload Log"
-      description="Log of uploaded screenplays with dates, sources, and notes."
+      section="Archive"
+      title="Archive — Week 4"
+      description="Archived chat imports and conversation logs from Week 4."
     />
   );
 }

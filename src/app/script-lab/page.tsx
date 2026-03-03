@@ -5,8 +5,8 @@ export default function Page() {
     <PlaceholderPage
       section="Script Lab"
       title="Script Lab"
-      description="The Script Lab is your central workspace for uploading, annotating, and analysing script drafts."
-      details="Use the sub-sections to log uploads, apply annotation templates, and record session findings."
+      description="Your workspace for screenplay analysis, annotation, and technique mastery."
+      details="Use the sub-pages to manage uploads, templates, analysis sessions, and learned techniques."
     />
   );
 }

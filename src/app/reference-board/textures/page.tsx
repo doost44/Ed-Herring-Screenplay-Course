@@ -5,8 +5,7 @@ export default function Page() {
     <PlaceholderPage
       section="Reference Board"
       title="Textures"
-      description="Surface and material textures that inform the film's visual and tactile quality."
-      details="Reference these when making decisions about set design, costume, and cinematography."
+      description="Texture samples and material references for production design."
     />
   );
 }

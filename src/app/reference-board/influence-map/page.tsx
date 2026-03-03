@@ -5,8 +5,7 @@ export default function Page() {
     <PlaceholderPage
       section="Reference Board"
       title="Influence Map"
-      description="A map of the key filmmakers, films, and artistic movements that are influencing this project."
-      details="Articulate how each influence connects to specific choices being made in the script or production design."
+      description="Map of films, directors, and artists that influence your project's creative direction."
     />
   );
 }

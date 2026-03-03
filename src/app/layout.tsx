@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
+import ChatPanel from "@/components/ChatPanel";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="app-shell">
           <Sidebar />
           <main className="main-content">{children}</main>
+          <ChatPanel />
         </div>
       </body>
     </html>

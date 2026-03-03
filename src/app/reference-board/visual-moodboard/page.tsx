@@ -4,8 +4,8 @@ export default function Page() {
   return (
     <PlaceholderPage
       section="Reference Board"
-      title="Palettes"
-      description="Colour palettes and grading references for your film's visual identity."
+      title="Visual Moodboard"
+      description="Collect images, stills, and visual inspiration for tone and aesthetic."
     />
   );
 }

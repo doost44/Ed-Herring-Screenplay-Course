@@ -5,8 +5,8 @@ export default function Page() {
     <PlaceholderPage
       section="Reference Board"
       title="Reference Board"
-      description="The Reference Board collects all visual, sonic, and spatial references guiding the film's aesthetic."
-      details="Explore the sub-sections to build out moodboards, palettes, shot references, and influence maps."
+      description="Visual and auditory references for your short film — mood, texture, colour, location, and sound."
+      details="Browse the sub-pages to curate your reference library."
     />
   );
 }

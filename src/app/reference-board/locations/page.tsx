@@ -5,8 +5,7 @@ export default function Page() {
     <PlaceholderPage
       section="Reference Board"
       title="Locations"
-      description="A catalogue of potential and confirmed filming locations with notes on logistics and visual fit."
-      details="Include photos, addresses, availability, and any relevant permissions required."
+      description="Location scouting references — photos, maps, and notes on potential shooting sites."
     />
   );
 }
