@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getPageByHref } from "@/content/courseStructure";
 import type { AppState, ChatMessage } from "@/lib/agentTypes";
 import { getJSON, setJSON } from "@/lib/storage";
+import { isClientLlmConfigured, generateClientReply } from "@/lib/clientLlm";
 import { usePathname } from "next/navigation";
 import styles from "./ChatPanel.module.css";
 
@@ -86,38 +87,55 @@ export default function ChatPanel() {
     setIsMockThinking(true);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: nextHistory,
-          appState: buildAppState(context.slug),
-        }),
-      });
+      let replyText: string;
 
-      if (!response.ok) {
-        throw new Error(`Chat API returned ${response.status}`);
+      if (isClientLlmConfigured()) {
+        // Call LLM directly from browser (works on static export / GitHub Pages)
+        replyText = await generateClientReply(
+          nextHistory,
+          buildAppState(context.slug),
+        );
+      } else {
+        // Try server route (works in `next dev` with .env.local)
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: nextHistory,
+            appState: buildAppState(context.slug),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Chat API returned ${response.status}`);
+        }
+
+        const payload = (await response.json()) as {
+          reply?: string;
+          error?: string;
+        };
+
+        replyText =
+          payload.reply ??
+          payload.error ??
+          buildLocalFallbackReply(trimmed, context.slug);
       }
-
-      const payload = (await response.json()) as {
-        reply?: string;
-        error?: string;
-      };
 
       const assistantMessage: ChatMessage = {
         role: "assistant",
-        content:
-          payload.reply ??
-          payload.error ??
-          buildLocalFallbackReply(trimmed, context.slug),
+        content: replyText,
         createdAt: new Date().toISOString(),
       };
 
       setHistory((prev) => [...prev, assistantMessage]);
-    } catch {
+    } catch (err) {
+      const errMsg =
+        err instanceof Error ? err.message : "Unknown error";
       const assistantMessage: ChatMessage = {
         role: "assistant",
-        content: buildLocalFallbackReply(trimmed, context.slug),
+        content: isClientLlmConfigured()
+          ? `LLM error: ${errMsg}\n\nCheck your API key and model in Settings.`
+          : buildLocalFallbackReply(trimmed, context.slug),
         createdAt: new Date().toISOString(),
       };
       setHistory((prev) => [...prev, assistantMessage]);

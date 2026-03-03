@@ -521,3 +521,66 @@ td.template-placeholder {
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+
+/* ------------------------------------------------------------------ */
+/*  LLM Settings form                                                  */
+/* ------------------------------------------------------------------ */
+.llm-settings {
+  margin-top: 1rem;
+}
+
+.llm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.llm-field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted, #a1a1aa);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.llm-field input {
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border, #27272a);
+  background: var(--card-bg, #18181b);
+  color: var(--text, #e4e4e7);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.llm-field input:focus {
+  border-color: var(--accent, #a78bfa);
+}
+
+.llm-btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent, #a78bfa);
+  background: var(--accent, #a78bfa);
+  color: #000;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.llm-btn:hover {
+  opacity: 0.85;
+}
+
+.llm-btn-secondary {
+  background: transparent;
+  color: var(--accent, #a78bfa);
+}
+
+.llm-btn-secondary:hover {
+  background: rgba(167, 139, 250, 0.1);
+}
