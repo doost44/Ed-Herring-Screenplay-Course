@@ -1,11 +1,15 @@
 import PageHeader from "@/components/PageHeader";
+import NotesArea from "@/components/NotesArea";
 import SectionBlocks from "@/components/SectionBlocks";
 import { pageCopy } from "@/content/courseCopy";
 import { buildBreadcrumbs } from "@/content/courseStructure";
+import type { ReactNode } from "react";
 
 interface ContentPageProps {
   href: string;
   title: string;
+  notesSlug?: string;
+  children?: ReactNode;
 }
 
 /**
@@ -13,7 +17,12 @@ interface ContentPageProps {
  * Pulls copy from the content model by href and renders
  * PageHeader + SectionBlocks.
  */
-export default function ContentPage({ href, title }: ContentPageProps) {
+export default function ContentPage({
+  href,
+  title,
+  notesSlug,
+  children,
+}: ContentPageProps) {
   const copy = pageCopy[href];
   const breadcrumbs = buildBreadcrumbs(href);
 
@@ -25,6 +34,8 @@ export default function ContentPage({ href, title }: ContentPageProps) {
         breadcrumbs={breadcrumbs}
       />
       {copy?.blocks && <SectionBlocks blocks={copy.blocks} />}
+      {notesSlug && <NotesArea slug={notesSlug} />}
+      {children}
       {!copy && (
         <p>
           This section is ready for your content. Add notes, uploads, or

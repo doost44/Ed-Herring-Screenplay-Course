@@ -5,6 +5,7 @@ export default function Page() {
     <ContentPage
       href="/reference-board/visual-moodboard"
       title="Visual Moodboard"
+      notesSlug="/reference-board/visual-moodboard"
     />
   );
 }
