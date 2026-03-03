@@ -12,9 +12,9 @@ export type BlockKind =
 
 export interface ContentBlock {
   kind: BlockKind;
-  text?: string;            // paragraph / heading text
-  items?: string[];         // bullet or checklist items
-  fields?: string[];        // template field labels
+  text?: string; // paragraph / heading text
+  items?: string[]; // bullet or checklist items
+  fields?: string[]; // template field labels
 }
 
 export interface PageCopy {
@@ -63,7 +63,10 @@ export const pageCopy: Record<string, PageCopy> = {
     intro:
       "Central hub for project constraints, revision history, and milestone tracking.",
     blocks: [
-      { kind: "paragraph", text: "Use the sub-pages to manage constraints, the revision log, and milestones." },
+      {
+        kind: "paragraph",
+        text: "Use the sub-pages to manage constraints, the revision log, and milestones.",
+      },
     ],
   },
   "/infrastructure/constraints": {
@@ -85,13 +88,17 @@ export const pageCopy: Record<string, PageCopy> = {
     ],
   },
   "/infrastructure/revision-log": {
-    intro:
-      "Track every major revision to your screenplay and project plan.",
+    intro: "Track every major revision to your screenplay and project plan.",
     blocks: [
       { kind: "heading", text: "Revision Entry Template" },
       {
         kind: "template-fields",
-        fields: ["Date", "Version", "Summary of changes", "Reason for revision"],
+        fields: [
+          "Date",
+          "Version",
+          "Summary of changes",
+          "Reason for revision",
+        ],
       },
     ],
   },
@@ -119,11 +126,15 @@ export const pageCopy: Record<string, PageCopy> = {
     intro:
       "Your workspace for screenplay analysis, annotation, and technique mastery.",
     blocks: [
-      { kind: "paragraph", text: "Use the sub-pages to manage uploads, templates, analysis sessions, and learned techniques." },
+      {
+        kind: "paragraph",
+        text: "Use the sub-pages to manage uploads, templates, analysis sessions, and learned techniques.",
+      },
     ],
   },
   "/script-lab/index": {
-    intro: "Master index of all scripts uploaded and analysed in the Script Lab.",
+    intro:
+      "Master index of all scripts uploaded and analysed in the Script Lab.",
     blocks: [
       { kind: "heading", text: "Script Register" },
       {
@@ -165,7 +176,13 @@ export const pageCopy: Record<string, PageCopy> = {
       { kind: "heading", text: "Session Entry Template" },
       {
         kind: "template-fields",
-        fields: ["Date", "Script analysed", "Focus area", "Key findings", "Follow-up tasks"],
+        fields: [
+          "Date",
+          "Script analysed",
+          "Focus area",
+          "Key findings",
+          "Follow-up tasks",
+        ],
       },
     ],
   },
@@ -176,7 +193,13 @@ export const pageCopy: Record<string, PageCopy> = {
       { kind: "heading", text: "Technique Card Template" },
       {
         kind: "template-fields",
-        fields: ["Technique name", "Source / origin", "Description", "Example", "When to use"],
+        fields: [
+          "Technique name",
+          "Source / origin",
+          "Description",
+          "Example",
+          "When to use",
+        ],
       },
     ],
   },
@@ -186,21 +209,42 @@ export const pageCopy: Record<string, PageCopy> = {
     intro:
       "Visual and auditory references for your short film — mood, texture, colour, location, and sound.",
     blocks: [
-      { kind: "paragraph", text: "Browse the sub-pages to curate your reference library." },
+      {
+        kind: "paragraph",
+        text: "Browse the sub-pages to curate your reference library.",
+      },
     ],
   },
   "/reference-board/visual-moodboard": {
-    intro: "Collect images, stills, and visual inspiration for tone and aesthetic.",
+    intro:
+      "Collect images, stills, and visual inspiration for tone and aesthetic.",
     blocks: [
       { kind: "heading", text: "Moodboard Sections" },
-      { kind: "bullets", items: ["Tone / atmosphere", "Lighting", "Framing", "Colour grading", "Costume & props"] },
+      {
+        kind: "bullets",
+        items: [
+          "Tone / atmosphere",
+          "Lighting",
+          "Framing",
+          "Colour grading",
+          "Costume & props",
+        ],
+      },
     ],
   },
   "/reference-board/textures": {
     intro: "Texture samples and material references for production design.",
     blocks: [
       { kind: "heading", text: "Categories" },
-      { kind: "bullets", items: ["Surfaces", "Fabrics", "Natural elements", "Urban / industrial"] },
+      {
+        kind: "bullets",
+        items: [
+          "Surfaces",
+          "Fabrics",
+          "Natural elements",
+          "Urban / industrial",
+        ],
+      },
     ],
   },
   "/reference-board/locations": {
@@ -210,22 +254,41 @@ export const pageCopy: Record<string, PageCopy> = {
       { kind: "heading", text: "Location Entry Template" },
       {
         kind: "template-fields",
-        fields: ["Name", "Address / description", "Permit required?", "Photos", "Notes"],
+        fields: [
+          "Name",
+          "Address / description",
+          "Permit required?",
+          "Photos",
+          "Notes",
+        ],
       },
     ],
   },
   "/reference-board/palettes": {
-    intro: "Colour palettes and grading references for your film's visual identity.",
+    intro:
+      "Colour palettes and grading references for your film's visual identity.",
     blocks: [
       { kind: "heading", text: "Palette Workspace" },
-      { kind: "paragraph", text: "Add colour swatches, hex codes, and reference stills here." },
+      {
+        kind: "paragraph",
+        text: "Add colour swatches, hex codes, and reference stills here.",
+      },
     ],
   },
   "/reference-board/shot-refs": {
     intro: "Shot composition, framing, and cinematography references.",
     blocks: [
       { kind: "heading", text: "Shot Reference Categories" },
-      { kind: "bullets", items: ["Wide / establishing", "Close-up", "POV / subjective", "Tracking / movement", "Static / tableau"] },
+      {
+        kind: "bullets",
+        items: [
+          "Wide / establishing",
+          "Close-up",
+          "POV / subjective",
+          "Tracking / movement",
+          "Static / tableau",
+        ],
+      },
     ],
   },
   "/reference-board/influence-map": {
@@ -243,13 +306,23 @@ export const pageCopy: Record<string, PageCopy> = {
     intro: "Sound design, music, and audio atmosphere references.",
     blocks: [
       { kind: "heading", text: "Sound Categories" },
-      { kind: "bullets", items: ["Ambient / atmos", "Foley", "Score / soundtrack", "Dialogue treatment", "Silence / negative space"] },
+      {
+        kind: "bullets",
+        items: [
+          "Ambient / atmos",
+          "Foley",
+          "Score / soundtrack",
+          "Dialogue treatment",
+          "Silence / negative space",
+        ],
+      },
     ],
   },
 
   /* ---- Archive ---- */
   "/archive": {
-    intro: "Archived chat imports and historical conversation logs organised by week.",
+    intro:
+      "Archived chat imports and historical conversation logs organised by week.",
     blocks: [],
   },
 
@@ -258,7 +331,15 @@ export const pageCopy: Record<string, PageCopy> = {
     intro: "Application preferences, theme options, and configuration.",
     blocks: [
       { kind: "heading", text: "Preferences" },
-      { kind: "checklist", items: ["Theme (dark / light)", "Font size", "Sidebar default state", "Chat panel default state"] },
+      {
+        kind: "checklist",
+        items: [
+          "Theme (dark / light)",
+          "Font size",
+          "Sidebar default state",
+          "Chat panel default state",
+        ],
+      },
     ],
   },
 };
@@ -290,7 +371,14 @@ for (let n = 1; n <= 5; n++) {
     intro: `Lecture notes and key takeaways for Week ${n}.`,
     blocks: [
       { kind: "heading", text: "Key Concepts" },
-      { kind: "bullets", items: ["Concept 1 — (placeholder)", "Concept 2 — (placeholder)", "Concept 3 — (placeholder)"] },
+      {
+        kind: "bullets",
+        items: [
+          "Concept 1 — (placeholder)",
+          "Concept 2 — (placeholder)",
+          "Concept 3 — (placeholder)",
+        ],
+      },
       { kind: "heading", text: "Takeaways" },
       { kind: "checklist", items: ["Takeaway 1", "Takeaway 2", "Takeaway 3"] },
     ],
@@ -345,7 +433,10 @@ for (let n = 1; n <= 5; n++) {
     intro: `Personal notes and reflections for Week ${n}.`,
     blocks: [
       { kind: "heading", text: "Notes" },
-      { kind: "paragraph", text: "Add your personal reflections, questions, and observations here." },
+      {
+        kind: "paragraph",
+        text: "Add your personal reflections, questions, and observations here.",
+      },
     ],
   };
 

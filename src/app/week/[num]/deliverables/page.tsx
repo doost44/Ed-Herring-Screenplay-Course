@@ -10,5 +10,7 @@ export default async function Page({
   params: Promise<{ num: string }>;
 }) {
   const { num } = await params;
-  return <ContentPage href={`/week/${num}/deliverables`} title="Deliverables" />;
+  return (
+    <ContentPage href={`/week/${num}/deliverables`} title="Deliverables" />
+  );
 }
