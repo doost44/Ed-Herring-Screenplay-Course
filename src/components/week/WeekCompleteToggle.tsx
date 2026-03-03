@@ -7,7 +7,9 @@ interface WeekCompleteToggleProps {
   weekNumber: number;
 }
 
-export default function WeekCompleteToggle({ weekNumber }: WeekCompleteToggleProps) {
+export default function WeekCompleteToggle({
+  weekNumber,
+}: WeekCompleteToggleProps) {
   const storageKey = `mm_week:${weekNumber}:completed`;
   const [completed, setCompleted] = useState(false);
 

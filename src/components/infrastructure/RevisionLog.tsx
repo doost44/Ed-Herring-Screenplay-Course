@@ -101,7 +101,8 @@ export default function RevisionLog() {
           <ul className="block-bullets">
             {entries.map((entry) => (
               <li key={entry.id}>
-                <strong>{entry.date}</strong> — [{entry.category}] {entry.description}
+                <strong>{entry.date}</strong> — [{entry.category}]{" "}
+                {entry.description}
               </li>
             ))}
           </ul>

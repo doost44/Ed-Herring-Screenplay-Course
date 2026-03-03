@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getPageByHref } from "@/content/courseStructure";
-import type { ChatMessage } from "@/lib/agentTypes";
+import type { AppState, ChatMessage } from "@/lib/agentTypes";
 import { getJSON, setJSON } from "@/lib/storage";
 import { usePathname } from "next/navigation";
 import styles from "./ChatPanel.module.css";
@@ -80,20 +80,46 @@ export default function ChatPanel() {
       createdAt: new Date().toISOString(),
     };
 
-    setHistory((prev) => [...prev, userMessage]);
+    const nextHistory = [...history, userMessage];
+    setHistory(nextHistory);
     setInput("");
     setIsMockThinking(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 260));
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: nextHistory,
+          appState: buildAppState(context.slug),
+        }),
+      });
 
-    const assistantMessage: ChatMessage = {
-      role: "assistant",
-      content: mockAssistantReply(trimmed, context.title),
-      createdAt: new Date().toISOString(),
-    };
+      const payload = (await response.json()) as {
+        reply?: string;
+        error?: string;
+      };
 
-    setHistory((prev) => [...prev, assistantMessage]);
-    setIsMockThinking(false);
+      const assistantMessage: ChatMessage = {
+        role: "assistant",
+        content:
+          payload.reply ??
+          payload.error ??
+          "Unable to generate a response at the moment.",
+        createdAt: new Date().toISOString(),
+      };
+
+      setHistory((prev) => [...prev, assistantMessage]);
+    } catch {
+      const assistantMessage: ChatMessage = {
+        role: "assistant",
+        content: "Network error while calling /api/chat.",
+        createdAt: new Date().toISOString(),
+      };
+      setHistory((prev) => [...prev, assistantMessage]);
+    } finally {
+      setIsMockThinking(false);
+    }
   }
 
   return (
@@ -171,7 +197,25 @@ function titleFromPath(path: string): string {
   return leaf.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-function mockAssistantReply(userInput: string, pageTitle: string): string {
-  const firstLine = userInput.split("\n")[0]?.trim() ?? "";
-  return `Acknowledged for ${pageTitle}.\n\nI stored your message locally and a provider can be connected next.\n\nReceived: ${firstLine}`;
+function buildAppState(currentSlug: string): AppState {
+  const constraints = getJSON<Record<string, string>>("mm_constraints", {});
+
+  return {
+    currentSlug,
+    weekCompletion: {
+      week1: getJSON<boolean>("mm_week:1:completed", false),
+      week2: getJSON<boolean>("mm_week:2:completed", false),
+      week3: getJSON<boolean>("mm_week:3:completed", false),
+      week4: getJSON<boolean>("mm_week:4:completed", false),
+      week5: getJSON<boolean>("mm_week:5:completed", false),
+    },
+    constraintsSummary: {
+      locations: constraints.locations,
+      props: constraints.props,
+      castAvailability: constraints.castAvailability,
+      sound: constraints.sound,
+      lighting: constraints.lighting,
+      schedule: constraints.schedule,
+    },
+  };
 }

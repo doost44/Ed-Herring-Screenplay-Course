@@ -2,7 +2,12 @@ import "server-only";
 
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { AppState, ChatMessage, CommandFlags, ModeBlock } from "@/lib/agentTypes";
+import type {
+  AppState,
+  ChatMessage,
+  CommandFlags,
+  ModeBlock,
+} from "@/lib/agentTypes";
 
 const MODE_TOKENS: ModeBlock[] = ["T", "F", "Q", "P", "B", "M"];
 
@@ -32,7 +37,9 @@ export function detectCommandFlags(userText: string): CommandFlags {
     );
 
   const rewriteRequested =
-    /\b(rewrite|reword|polish|improve this text|edit this paragraph)\b/.test(text);
+    /\b(rewrite|reword|polish|improve this text|edit this paragraph)\b/.test(
+      text,
+    );
 
   const requestedMode = detectModeBlock(text);
 
@@ -45,6 +52,12 @@ export function detectCommandFlags(userText: string): CommandFlags {
 }
 
 function detectModeBlock(text: string): ModeBlock | null {
+  if (/\bteaching\s+only\b/.test(text)) return "T";
+  if (/\bfeedback\s+only\b/.test(text)) return "F";
+  if (/\bquestions\s+only\b/.test(text)) return "Q";
+  if (/\bplan\s+only\b/.test(text)) return "P";
+  if (/\bstop\s+steering\b/.test(text)) return "M";
+
   for (const token of MODE_TOKENS) {
     if (new RegExp(`\\b${token.toLowerCase()}\\b`).test(text)) {
       return token;
@@ -96,7 +109,9 @@ function summarizeValue(value: string | undefined): string {
   }
 
   const normalized = value.replace(/\s+/g, " ").trim();
-  return normalized.length > 140 ? `${normalized.slice(0, 137)}...` : normalized;
+  return normalized.length > 140
+    ? `${normalized.slice(0, 137)}...`
+    : normalized;
 }
 
 /**
@@ -118,7 +133,9 @@ export function buildMessages(
 
   const contextMessage: ChatMessage = {
     role: "system",
-    content: [`RUNTIME_CONTEXT`, appStateSummary, `flags=${flagSummary}`].join("\n\n"),
+    content: [`RUNTIME_CONTEXT`, appStateSummary, `flags=${flagSummary}`].join(
+      "\n\n",
+    ),
   };
 
   return [

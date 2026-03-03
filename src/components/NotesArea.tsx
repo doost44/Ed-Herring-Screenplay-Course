@@ -69,10 +69,15 @@ export default function NotesArea({ slug }: NotesAreaProps) {
         <h2>Notes</h2>
         <span className="notes-status">
           {status === "saving" ? "Saving…" : "Saved"}
-          {lastSaved && status !== "saving" ? ` • ${new Date(lastSaved).toLocaleTimeString()}` : ""}
+          {lastSaved && status !== "saving"
+            ? ` • ${new Date(lastSaved).toLocaleTimeString()}`
+            : ""}
         </span>
       </div>
-      <p className="notes-help">Use Markdown formatting in this field for headings, bullets, and checklists.</p>
+      <p className="notes-help">
+        Use Markdown formatting in this field for headings, bullets, and
+        checklists.
+      </p>
       <textarea
         className="notes-textarea"
         value={content}
