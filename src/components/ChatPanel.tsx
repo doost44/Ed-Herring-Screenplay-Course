@@ -95,6 +95,10 @@ export default function ChatPanel() {
         }),
       });
 
+      if (!response.ok) {
+        throw new Error(`Chat API returned ${response.status}`);
+      }
+
       const payload = (await response.json()) as {
         reply?: string;
         error?: string;
@@ -105,7 +109,7 @@ export default function ChatPanel() {
         content:
           payload.reply ??
           payload.error ??
-          "Unable to generate a response at the moment.",
+          buildLocalFallbackReply(trimmed, context.slug),
         createdAt: new Date().toISOString(),
       };
 
@@ -113,7 +117,7 @@ export default function ChatPanel() {
     } catch {
       const assistantMessage: ChatMessage = {
         role: "assistant",
-        content: "Network error while calling /api/chat.",
+        content: buildLocalFallbackReply(trimmed, context.slug),
         createdAt: new Date().toISOString(),
       };
       setHistory((prev) => [...prev, assistantMessage]);
@@ -219,4 +223,18 @@ function buildAppState(currentSlug: string): AppState {
       schedule: constraints.schedule,
     },
   };
+}
+
+function buildLocalFallbackReply(userText: string, slug: string): string {
+  const input = userText.trim();
+  const firstLine = input.split("\n")[0]?.trim() || "(no user text provided)";
+
+  return [
+    "[MODE]: T",
+    `[GOAL]: ${firstLine}`,
+    "[BOUNDARIES]: Local fallback active (chat API unavailable); No co-writing by default; No story-fishing by default; No rewrites unless requested",
+    `- Template mode active for ${slug}.`,
+    "- Fill fields with your own production/process details.",
+    `- Current input captured: ${firstLine}`,
+  ].join("\n");
 }
