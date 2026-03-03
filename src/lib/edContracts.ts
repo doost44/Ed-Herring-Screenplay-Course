@@ -55,13 +55,22 @@ export function resolveModeTransition(params: {
 export function parseEdReply(text: string): ParsedEdReply {
   const lines = text.split(/\r?\n/);
 
-  const modeLine = lines.find((line) => line.toUpperCase().startsWith("[MODE]:"));
-  const goalLine = lines.find((line) => line.toUpperCase().startsWith("[GOAL]:"));
+  const modeLine = lines.find((line) =>
+    line.toUpperCase().startsWith("[MODE]:"),
+  );
+  const goalLine = lines.find((line) =>
+    line.toUpperCase().startsWith("[GOAL]:"),
+  );
   const boundariesLine = lines.find((line) =>
     line.toUpperCase().startsWith("[BOUNDARIES]:"),
   );
 
-  const modeValue = modeLine?.split(":").slice(1).join(":").trim().toUpperCase();
+  const modeValue = modeLine
+    ?.split(":")
+    .slice(1)
+    .join(":")
+    .trim()
+    .toUpperCase();
   const mode = ["T", "F", "Q", "P", "B", "M"].includes(modeValue ?? "")
     ? normalizeMode(modeValue as ModeBlock)
     : null;
@@ -94,7 +103,9 @@ export function validateEdReply(
   if (options?.expectedMode) {
     const expected = normalizeMode(options.expectedMode);
     if (parsed.mode !== expected) {
-      errors.push(`Expected mode ${expected}, received ${parsed.mode ?? "none"}`);
+      errors.push(
+        `Expected mode ${expected}, received ${parsed.mode ?? "none"}`,
+      );
     }
   }
 
@@ -102,7 +113,9 @@ export function validateEdReply(
   const hasQuestionMark = /\?/.test(bodyText);
 
   if (options?.noQuestions && hasQuestionMark) {
-    errors.push("Reply includes questions while no-questions command is active");
+    errors.push(
+      "Reply includes questions while no-questions command is active",
+    );
   }
 
   if (parsed.mode === "Q") {
@@ -138,7 +151,10 @@ export function enforceEdReplyContract(params: {
     return params.reply;
   }
 
-  const safeMode = params.noQuestions && params.expectedMode === "Q" ? "T" : params.expectedMode;
+  const safeMode =
+    params.noQuestions && params.expectedMode === "Q"
+      ? "T"
+      : params.expectedMode;
 
   return [
     `[MODE]: ${safeMode}`,
@@ -149,8 +165,12 @@ export function enforceEdReplyContract(params: {
   ].join("\n");
 }
 
-export function findLastAssistantMode(messages: ChatMessage[]): ModeBlock | null {
-  const lastAssistant = [...messages].reverse().find((message) => message.role === "assistant");
+export function findLastAssistantMode(
+  messages: ChatMessage[],
+): ModeBlock | null {
+  const lastAssistant = [...messages]
+    .reverse()
+    .find((message) => message.role === "assistant");
   if (!lastAssistant) return null;
   return parseEdReply(lastAssistant.content).mode;
 }

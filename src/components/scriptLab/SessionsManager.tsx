@@ -31,7 +31,9 @@ export default function SessionsManager() {
     setSessions(getJSON<ScriptSession[]>(SESSIONS_KEY, []));
 
     const uploads = getJSON<ScriptUploadEntry[]>(UPLOADS_KEY, []);
-    const options = Array.from(new Set(uploads.map((u) => u.name))).filter(Boolean);
+    const options = Array.from(new Set(uploads.map((u) => u.name))).filter(
+      Boolean,
+    );
     setScriptOptions(options);
   }, []);
 
@@ -98,7 +100,10 @@ export default function SessionsManager() {
         body: JSON.stringify(payload),
       });
 
-      const result = (await response.json()) as { reply?: string; error?: string };
+      const result = (await response.json()) as {
+        reply?: string;
+        error?: string;
+      };
       updateSession(session.id, {
         edReply: result.reply ?? result.error ?? "No response returned.",
       });
@@ -118,12 +123,19 @@ export default function SessionsManager() {
       <form className="revision-form" onSubmit={createSession}>
         <label className="infra-field">
           <span>Date</span>
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
         </label>
 
         <label className="infra-field">
           <span>Script Reference</span>
-          <select value={scriptRef} onChange={(e) => setScriptRef(e.target.value)}>
+          <select
+            value={scriptRef}
+            onChange={(e) => setScriptRef(e.target.value)}
+          >
             {dropdownOptions.map((option) => (
               <option key={option} value={option}>
                 {option}

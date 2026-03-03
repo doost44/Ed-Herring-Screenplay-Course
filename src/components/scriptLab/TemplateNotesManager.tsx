@@ -15,7 +15,9 @@ const TEMPLATE_KEYS = [
 type TemplateNotesState = Record<string, string>;
 
 export default function TemplateNotesManager() {
-  const [notesByTemplate, setNotesByTemplate] = useState<TemplateNotesState>({});
+  const [notesByTemplate, setNotesByTemplate] = useState<TemplateNotesState>(
+    {},
+  );
 
   useEffect(() => {
     setNotesByTemplate(getJSON<TemplateNotesState>(STORAGE_KEY, {}));

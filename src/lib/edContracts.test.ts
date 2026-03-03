@@ -24,7 +24,10 @@ export function runEdContractSelfTests() {
   assert(parsed.mode === "Q", "Parser should detect Q mode");
   assert(parsed.goal === "Clarify intent", "Parser should read goal");
 
-  const valid = validateEdReply(parsed, { expectedMode: "Q", noQuestions: false });
+  const valid = validateEdReply(parsed, {
+    expectedMode: "Q",
+    noQuestions: false,
+  });
   assert(valid.isValid, "Q response with two questions should validate");
 
   const invalidNoQuestions = validateEdReply(parsed, {

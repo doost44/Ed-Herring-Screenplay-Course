@@ -59,7 +59,11 @@ export async function POST(request: Request) {
     const noQuestions = hasNoQuestionsCommand(latestUserText);
     const lastAssistantMode = findLastAssistantMode(messages);
     const mode = selectMode(flags, latestUserText, appState, lastAssistantMode);
-    const boundaries = deriveBoundaries(flags, noQuestions, appState.analysisMode);
+    const boundaries = deriveBoundaries(
+      flags,
+      noQuestions,
+      appState.analysisMode,
+    );
 
     if (shouldApplyWeek1Gate(latestUserText, appState)) {
       return NextResponse.json({
@@ -92,7 +96,10 @@ export async function POST(request: Request) {
     const safety = checkSafety(latestUserText);
     if (safety.shouldRefuse) {
       return NextResponse.json({
-        reply: buildEdRefusal({ goal, reason: safety.reason ?? "unsafe request" }),
+        reply: buildEdRefusal({
+          goal,
+          reason: safety.reason ?? "unsafe request",
+        }),
         flags,
         debug: {
           messageCount: finalMessages.length,
@@ -205,7 +212,11 @@ function buildMockReply(args: {
   const noQuestions = hasNoQuestionsCommand(latestUserText);
   const mode = selectMode(flags, latestUserText, appState);
   const goal = deriveGoal(latestUserText, appState.currentSlug);
-  const boundaries = deriveBoundaries(flags, noQuestions, appState.analysisMode);
+  const boundaries = deriveBoundaries(
+    flags,
+    noQuestions,
+    appState.analysisMode,
+  );
 
   if (mode === "Q" && !noQuestions) {
     const questions = buildQuestions(
@@ -279,7 +290,9 @@ function deriveBoundaries(
   if (!flags.rewriteRequested) items.push("No rewrites unless requested");
   if (noQuestions) items.push("No questions in this response");
   if (analysisMode) {
-    items.push("Analysis Mode: teach analysis tools, avoid reproducing text by default");
+    items.push(
+      "Analysis Mode: teach analysis tools, avoid reproducing text by default",
+    );
   }
 
   return items.join("; ");

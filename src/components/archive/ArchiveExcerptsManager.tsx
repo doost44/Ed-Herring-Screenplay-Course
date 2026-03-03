@@ -49,7 +49,9 @@ export default function ArchiveExcerptsManager({
 
   function updateExcerpt(id: string, patch: Partial<ArchiveExcerpt>) {
     setExcerpts((prev) =>
-      prev.map((excerpt) => (excerpt.id === id ? { ...excerpt, ...patch } : excerpt)),
+      prev.map((excerpt) =>
+        excerpt.id === id ? { ...excerpt, ...patch } : excerpt,
+      ),
     );
   }
 
@@ -85,7 +87,9 @@ export default function ArchiveExcerptsManager({
                 <input
                   type="date"
                   value={excerpt.date}
-                  onChange={(e) => updateExcerpt(excerpt.id, { date: e.target.value })}
+                  onChange={(e) =>
+                    updateExcerpt(excerpt.id, { date: e.target.value })
+                  }
                 />
               </label>
 
@@ -93,7 +97,9 @@ export default function ArchiveExcerptsManager({
                 <span>Excerpt Title</span>
                 <input
                   value={excerpt.title}
-                  onChange={(e) => updateExcerpt(excerpt.id, { title: e.target.value })}
+                  onChange={(e) =>
+                    updateExcerpt(excerpt.id, { title: e.target.value })
+                  }
                   placeholder="What this excerpt is about"
                 />
               </label>

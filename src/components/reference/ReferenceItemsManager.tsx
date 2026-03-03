@@ -52,7 +52,9 @@ export default function ReferenceItemsManager({
   }, [items, storageKey]);
 
   function updateItem(id: string, patch: Partial<ReferenceItem>) {
-    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...patch } : item)));
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...patch } : item)),
+    );
   }
 
   function removeItem(id: string) {
@@ -86,7 +88,9 @@ export default function ReferenceItemsManager({
                 <span>Title</span>
                 <input
                   value={item.title}
-                  onChange={(e) => updateItem(item.id, { title: e.target.value })}
+                  onChange={(e) =>
+                    updateItem(item.id, { title: e.target.value })
+                  }
                   placeholder="Item title"
                 />
               </label>
@@ -121,7 +125,9 @@ export default function ReferenceItemsManager({
                 <textarea
                   rows={4}
                   value={item.notes}
-                  onChange={(e) => updateItem(item.id, { notes: e.target.value })}
+                  onChange={(e) =>
+                    updateItem(item.id, { notes: e.target.value })
+                  }
                   placeholder="Why this reference matters"
                 />
               </label>

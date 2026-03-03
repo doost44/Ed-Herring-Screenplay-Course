@@ -52,8 +52,8 @@ function hasOpenAIConfig(): boolean {
 function hasAzureConfig(): boolean {
   return Boolean(
     process.env.AZURE_OPENAI_API_KEY &&
-      process.env.AZURE_OPENAI_ENDPOINT &&
-      process.env.AZURE_OPENAI_DEPLOYMENT,
+    process.env.AZURE_OPENAI_ENDPOINT &&
+    process.env.AZURE_OPENAI_DEPLOYMENT,
   );
 }
 
@@ -64,10 +64,9 @@ async function generateWithOpenAICompatible({
 }: GenerateTextParams): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL;
-  const baseUrl = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(
-    /\/$/,
-    "",
-  );
+  const baseUrl = (
+    process.env.OPENAI_BASE_URL || "https://api.openai.com/v1"
+  ).replace(/\/$/, "");
 
   if (!apiKey || !model) {
     throw new Error("Missing OPENAI_API_KEY or OPENAI_MODEL");

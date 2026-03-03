@@ -11,7 +11,10 @@ export default function GlobalSearchPanel() {
   return (
     <section className="infra-panel">
       <h2>Global Search</h2>
-      <p>Search across notes, decisions, exercises, revision logs, and archive excerpts.</p>
+      <p>
+        Search across notes, decisions, exercises, revision logs, and archive
+        excerpts.
+      </p>
 
       <label className="infra-field">
         <span>Search</span>
