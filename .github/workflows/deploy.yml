@@ -1,5 +1,7 @@
 name: Deploy to GitHub Pages
 
+run-name: Deploy Pages • ${{ github.sha }}
+
 on:
   push:
     branches: [main]
