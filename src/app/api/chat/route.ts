@@ -8,6 +8,11 @@ import {
   loadSystemPrompt,
   postProcessEdReply,
 } from "@/lib/edAgent";
+import {
+  enforceEdReplyContract,
+  findLastAssistantMode,
+  resolveModeTransition,
+} from "@/lib/edContracts";
 import { generateText, getConfiguredProvider } from "@/lib/llmProvider";
 import { buildEdRefusal, checkSafety } from "@/lib/safety";
 import type {
@@ -52,7 +57,8 @@ export async function POST(request: Request) {
 
     const goal = deriveGoal(latestUserText, appState.currentSlug);
     const noQuestions = hasNoQuestionsCommand(latestUserText);
-    const mode = selectMode(flags, latestUserText, appState);
+    const lastAssistantMode = findLastAssistantMode(messages);
+    const mode = selectMode(flags, latestUserText, appState, lastAssistantMode);
     const boundaries = deriveBoundaries(flags, noQuestions, appState.analysisMode);
 
     if (shouldApplyWeek1Gate(latestUserText, appState)) {
@@ -141,6 +147,14 @@ export async function POST(request: Request) {
       providerUsed = "mock";
     }
 
+    reply = enforceEdReplyContract({
+      reply,
+      expectedMode: mode,
+      goal,
+      boundaries,
+      noQuestions,
+    });
+
     return NextResponse.json({
       reply,
       flags,
@@ -225,24 +239,16 @@ function selectMode(
   flags: CommandFlags,
   latestUserText: string,
   appState?: AppState,
+  lastAssistantMode?: ModeBlock | null,
 ): ModeBlock {
   const noQuestions = hasNoQuestionsCommand(latestUserText);
 
-  let mode: ModeBlock = flags.requestedMode ?? "T";
-
-  if (appState?.analysisMode && !flags.requestedMode && !noQuestions) {
-    mode = "T";
-  }
-
-  if (mode === "M") {
-    mode = "T";
-  }
-
-  if (mode === "Q" && noQuestions) {
-    mode = "T";
-  }
-
-  return mode;
+  return resolveModeTransition({
+    previousMode: lastAssistantMode ?? null,
+    requestedMode: flags.requestedMode,
+    noQuestions,
+    analysisMode: appState?.analysisMode,
+  });
 }
 
 function hasNoQuestionsCommand(text: string): boolean {

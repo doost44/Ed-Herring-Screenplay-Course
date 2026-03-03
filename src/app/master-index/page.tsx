@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import SectionBlocks from "@/components/SectionBlocks";
+import GlobalSearchPanel from "@/components/master/GlobalSearchPanel";
 import WeekProgressPanel from "@/components/week/WeekProgressPanel";
 import { pageCopy } from "@/content/courseCopy";
 
@@ -21,6 +22,7 @@ export default function MasterIndexPage() {
       <PageHeader title="Master Index" subtitle={copy.intro} />
       <SectionBlocks blocks={copy.blocks} />
       <WeekProgressPanel />
+      <GlobalSearchPanel />
       <ul className="quick-links">
         {quickLinks.map(([href, label]) => (
           <li key={href}>
