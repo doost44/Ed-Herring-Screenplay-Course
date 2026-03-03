@@ -1,4 +1,4 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import Link from "next/link";
 
 export default function MasterIndexPage() {
   return (
@@ -27,7 +27,7 @@ export default function MasterIndexPage() {
           ["/archive", "Archive"],
         ].map(([href, label]) => (
           <li key={href}>
-            <a href={href}>→ {label}</a>
+            <Link href={href}>→ {label}</Link>
           </li>
         ))}
       </ul>
